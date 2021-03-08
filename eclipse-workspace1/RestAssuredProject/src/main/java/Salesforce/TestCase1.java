@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 public class TestCase1 {
 
 	@Test
-	public void actionsRightClick() throws InterruptedException {
+	public void createNewOpportunity() throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver",
 				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\test-output\\driver\\chromedriver.exe");
 
