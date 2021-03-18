@@ -1,6 +1,5 @@
 package Salesforce;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -13,12 +12,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TestCase2_PerceptionAnalysis {
-	
+public class TestCase12_Delete_Opportunity_SAL4 {
 	@Test
-	public void testcase2() throws InterruptedException {
+	public void deleteOpportunity() throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\test-output\\driver\\chromedriver.exe");
+				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("---disable-notifications");
 		WebDriver driver = new ChromeDriver(options);
@@ -51,36 +49,22 @@ public class TestCase2_PerceptionAnalysis {
 		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys("Salesforce Automation by Brinda");
 		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys(Keys.ENTER);
 		Thread.sleep(5000);
-		//Click on the Dropdown icon and Select Edit
-		driver.findElement(By.xpath("(//lightning-icon[@class='slds-icon-utility-down slds-icon_container'])[12]")).click();
+		
+		WebElement click=driver.findElement(By.xpath("(//th[@class='slds-cell-edit cellContainer']/parent::tr/child::td)[8]//a//span"));
+		js.executeScript("arguments[0].click();", click);
+		
 		Thread.sleep(5000);
-		WebElement editclick = driver.findElement(By.xpath("//div[text()='Edit']"));
-		js.executeScript("arguments[0].click();", editclick);
-		//Choose a close date as Tomorrow date
-		WebElement datepicker = driver.findElement(By.xpath("//span[text()='Date Picker']"));
-		js.executeScript("arguments[0].click();", datepicker);
-		driver.findElement(By.xpath("//span[text()='7']")).click();
-		//Select 'Stage' as Perception Analysis
-		driver.findElement(By.xpath("(//a[@class='select'])[2]")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("(//a[@title='Perception Analysis'])[1]")).click();
-		String expperception = driver.findElement(By.xpath("//a[text()='Perception Analysis']")).getText();
-		System.out.println(expperception);
-		//Select Deliver Status as In Progress
-		WebElement inprogress = driver.findElement(By.xpath("(//a[@class='select'])[4]"));
-		js.executeScript("arguments[0].click();", inprogress);
-		driver.findElement(By.xpath("//a[@title='In progress']")).click();
-		//Enter Description as SalesForce
-		driver.findElement(By.xpath("//textarea[@class=' textarea']")).sendKeys("SalesForce");
-
-		WebElement save = driver.findElement(By.xpath("(//span[text()='Save'])[2]"));
-		js.executeScript("arguments[0].click();", save);
-		//Click on Save and Verify Stage as Perception Analysis
-		String actperception = driver.findElement(By.xpath("(//span[@class='slds-truncate'])[26]")).getText();
-		System.out.println(actperception);
-
-		Assert.assertEquals(actperception, expperception);
-
-	}
-
+		WebElement delClick= driver.findElement(By.xpath("//div[text()='Delete']"));
+		js.executeScript("arguments[0].click();", delClick);
+		
+		driver.findElement(By.xpath("//span[text()='Delete']")).click();
+		
+		String delSuccessMsg=driver.findElement(By.xpath("//span[@class='toastMessage slds-text-heading--small forceActionsText']")).getText();
+		System.out.println(delSuccessMsg);
+		
+		String delExpMsg ="Opportunity \"Salesforce Automation by Brinda\" was deleted. Undo";
+		
+		Assert.assertEquals(delExpMsg, delSuccessMsg);
+		driver.quit();
+}
 }

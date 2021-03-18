@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,10 +18,13 @@ public class TestCase1 {
 	@Test
 	public void createNewOpportunity() throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\test-output\\driver\\chromedriver.exe");
+				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\chromedriver.exe");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("---disable-notifications");
+		WebDriver driver = new ChromeDriver(options);
+		
 
-		WebDriver driver = new ChromeDriver();
-		driver.manage().window().maximize();
+	    driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
 		// Login to https://login.salesforce.com

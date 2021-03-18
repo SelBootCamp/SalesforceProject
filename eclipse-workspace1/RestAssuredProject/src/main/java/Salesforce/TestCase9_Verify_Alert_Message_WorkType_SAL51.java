@@ -11,9 +11,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TestCase3_Create_Accounts {
+public class TestCase9_Verify_Alert_Message_WorkType_SAL51 {
+	
 	@Test
-	public void testcase3CreateAccounts() throws InterruptedException {
+	public void createNewWorkTasks() throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver",
 				"C:\\Users\\Brigu\\eclipse-workspace1\\RestAssuredProject\\chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
@@ -32,31 +33,28 @@ public class TestCase3_Create_Accounts {
 		Thread.sleep(5000);
 		// Click on the toggle menu button from the left corner
 		driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 		//Click View All and click Sales from App Launcher
 		driver.findElement(By.xpath("//button[@class='slds-button']")).click();
 		Thread.sleep(3000);
-		driver.findElement(By.xpath("//p[text()='Sales']")).click();
-		Thread.sleep(3000);
-		//Click on the Accounts tab 
-		WebElement accounts= driver.findElement(By.xpath("//span[text()='Accounts']"));
-		JavascriptExecutor ac= (JavascriptExecutor)driver;
-		ac.executeScript("arguments[0].click();", accounts);
-		//Click on the New button		
-		driver.findElement(By.xpath("//a[@class='forceActionLink']/div[text()='New']")).click();
-		//Enter 'your name' as the account name
-		WebElement expText=driver.findElement(By.xpath("(//input[@class=' input'])[1]"));
-		expText.sendKeys("Brinda");
-		String expval= expText.getAttribute("value");
-		System.out.println(expval);
-		//Select Ownership as Public
-		driver.findElement(By.xpath("(//span[text()='Ownership']/parent::span/following::div//a)[1]")).click();
-		driver.findElement(By.xpath("//a[text()='Public']")).click();
-		//Click save and verify Account name
+		
+		WebElement workTask= driver.findElement(By.xpath("//p[text()='Work Types']"));
+		JavascriptExecutor js= (JavascriptExecutor)driver;
+		js.executeScript("arguments[0].click();", workTask);
+		
+		driver.findElement(By.xpath("//div[text()='New']")).click();
+		WebElement verifyExpMessage=driver.findElement(By.xpath("//input[@class=' input']"));
+		verifyExpMessage.sendKeys("Bootcamp");
+		Thread.sleep(5000);
 		driver.findElement(By.xpath("(//span[text()='Save'])[2]")).click();
-		String actText=driver.findElement(By.xpath("//div[text()='Account']/following::span[text()='Brinda']")).getText();
-		System.out.println(actText);
-		Assert.assertEquals(actText, expval);
+		
+		String verfiyMandatoryMsg= driver.findElement(By.xpath("//ul[@class='errorsList']/li")).getText();
+		System.out.println(verfiyMandatoryMsg);
+		
+		String verifyExpMandatoryMsg="These required fields must be completed: Estimated Duration";
+		
+		Assert.assertEquals(verifyExpMandatoryMsg, verfiyMandatoryMsg);
+		
 		driver.quit();
 
 }
